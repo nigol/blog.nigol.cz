@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<rss version="2.0"> 
+  <channel> 
+    <title>Blogin':</title> 
+    <link>http://blog.nigol.cz</link> 
+    <description>Programming and anything.</description> 
+    
+    <item> 
+      <title>Java proxy objects for Interceptor implementation.</title> 
+      <link>http://blog.nigol.cz/article.html?java-proxy-objects-for-interceptor</link>
+      <guid>http://blog.nigol.cz/article.html?java-proxy-objects-for-interceptor</guid>
+      <description>Maybe you heard something about design 
+                        	patterns before. Design patterns could be 
+                        	useful for your developer life as they shows you some good practices for various situations, which 
+                        	can occur during software development. In our post we will implement 
+                        	Interceptor pattern.</description>
+      <pubDate>Tue, 23 Feb 2016 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
+      <title>Pár vřelých vět na úvod.</title> 
+      <link>http://blog.nigol.cz/article.html?par-vrelych-vet-na-uvod</link>
+      <guid>http://blog.nigol.cz/article.html?par-vrelych-vet-na-uvod</guid>
+      <description>Zdá se, že doba blogů a blogísků už pominula. 
+                            Respektive pominula doba, kdy mít blog bylo něco 
+                            podobného jako mít dnes účet na Facebooku. 
+                            Proč tedy nový blog?</description>
+      <pubDate>Sun, 07 Feb 2016 00:00:00 GMT</pubDate> 
+    </item>
+    
+  </channel> 
+</rss>
+
+
