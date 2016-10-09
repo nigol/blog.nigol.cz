@@ -3,7 +3,11 @@ $(document).ready(function () {
     var len = addressElements.length;
     var name = (len == 1) ? "index.inc.html" : addressElements[len - 1] + ".inc.html";
     $.get(name, function (data) {
-        $("#content>.col-sm-10").html(data);
+        $("#content").css({opacity: 0});
+        window.setTimeout(function () {
+            $("#content>.col-sm-10").html(data);
+            $("#content").css({opacity: 1});
+        }, 500);
     })
     .fail(function () {
         $("#content>.col-sm-10").html("<div class='alert alert-warning'><strong>Not found.</strong>" + 

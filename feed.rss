@@ -7,6 +7,14 @@
     
     <item> 
       <title>Java proxy objects for Interceptor implementation.</title> 
+      <link>http://blog.nigol.cz/article.html?pozadi</link>
+      <guid>blog.nigol.cz/article.html?pozadi</guid>
+      <description>Možná bude někoho zajímat, jakým způsobem je tento blog vyřešen po technické stránce. Je totiž hostován na službě AWS S3, která umožňuje uložení a hosting pouze statických dat.</description>
+      <pubDate>Sun, 09 Oct 2016 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
+      <title>Java proxy objects for Interceptor implementation.</title> 
       <link>http://blog.nigol.cz/article.html?java-proxy-objects-for-interceptor</link>
       <guid>http://blog.nigol.cz/article.html?java-proxy-objects-for-interceptor</guid>
       <description>Maybe you heard something about design 
