@@ -6,6 +6,14 @@
     <description>Programming and anything.</description> 
     
     <item> 
+      <title>geecon 2016.</title> 
+      <link>http://blog.nigol.cz/article.html?geecon-2016</link>
+      <guid>blog.nigol.cz/article.html?geecon-2016</guid>
+      <description>Ve dnech 20. a 21.10.2016 jsem v Praze navštívil konferenci geecon. Jedná se o konferenci zaměřenou na platformu Java &#8211; jak na samotný jazyk Java tak i JVM a jazyky na něm založené. Pořadatelem je Polish JUG, která je &#8211; alespoň dle webu &#8211; dosti aktivní.</description>
+      <pubDate>Sun, 06 Nov 2016 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
       <title>Java proxy objects for Interceptor implementation.</title> 
       <link>http://blog.nigol.cz/article.html?pozadi</link>
       <guid>blog.nigol.cz/article.html?pozadi</guid>
