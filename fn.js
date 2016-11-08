@@ -7,6 +7,9 @@ $(document).ready(function () {
         window.setTimeout(function () {
             $("#content>.col-sm-10>.article").html(data);
             $("#content").css({opacity: 1});
+            var header = $("h2").text();
+            document.title = header.substring(0, header.indexOf("."));
+            $("#backToIndex").show();
         }, 500);
     })
     .fail(function () {
