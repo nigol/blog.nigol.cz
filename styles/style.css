@@ -13,3 +13,8 @@ h1 {
    -o-transition: opacity .5s ease-in-out;
    transition: opacity .5s ease-in-out;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
