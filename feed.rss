@@ -6,6 +6,14 @@
     <description>Programming and anything.</description> 
     
     <item> 
+      <title>L-system.</title> 
+      <link>http://blog.nigol.cz/article.html?l-system</link>
+      <guid>blog.nigol.cz/article.html?l-system</guid>
+      <description>In last few days, I implemented &#8211; just for fun (you know, programmer :)) &#8211; something called L&#8211;system or Lindenmayer system.</description>
+      <pubDate>Tue, 27 Dec 2016 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
       <title>geecon 2016.</title> 
       <link>http://blog.nigol.cz/article.html?geecon-2016</link>
       <guid>blog.nigol.cz/article.html?geecon-2016</guid>
