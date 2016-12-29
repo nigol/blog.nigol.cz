@@ -10,10 +10,27 @@ $(document).ready(function () {
             var header = $("h2").text();
             document.title = header.substring(0, header.indexOf("."));
             $("#backToIndex").show();
+            prepareCategories();
         }, 500);
     })
     .fail(function () {
         $("#content>.col-sm-10>.article").html("<div class='alert alert-warning'><strong>Not found.</strong>" + 
             " Resource can not be found.</div>");
+            prepareCategories();
     });
 });
+
+function prepareCategories() {
+    $("#sideBar").find(".label").each(function (i, v) {
+        var cl = "." + v.classList[1];
+        var count = $("#content").find(cl).length;
+        if (count > 0) {
+            $(v).show();
+            v.nextElementSibling.innerText = count;
+            $(v).click(function () {
+                $("#content").find(".label").parent().parent().hide();
+                $("#content").find(cl).parent().parent().show();
+            });
+        }
+    });
+}
