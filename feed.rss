@@ -6,6 +6,14 @@
     <description>Programming and anything.</description> 
     
     <item> 
+      <title>L&#8211;system II.</title> 
+      <link>http://blog.nigol.cz/article.html?l-system-ii</link>
+      <guid>blog.nigol.cz/article.html?l-system-ii</guid>
+      <description>As I promised before, this is the second article concerning L&#8211;system topic. This time we will try to cover a little bit theory and also implementation details of L&#8211;system web application implemented in JavaScript.</description>
+      <pubDate>Wed, 11 Jan 2017 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
       <title>L-system.</title> 
       <link>http://blog.nigol.cz/article.html?l-system</link>
       <guid>blog.nigol.cz/article.html?l-system</guid>
