@@ -8,7 +8,7 @@
 <p>
     Jak jsem již zmiňoval v úvodu, služba S3 nabízí hosting pouze statických dat. V první verzi jsem to neřešil a každý článek byl samostatný HTML soubor, který obsahoval záhlaví, zápatí i boční panel. Asi už tušíte, že takové řešení je, mírně řečeno, neoptimální. Já to samozřejmě poznal záhy, kdy jsem měl napsané pouhé 2 příspěvky a potřeboval jsem upravit něco v bočním panelu. Upravovat 3 soubory byla otrava a při představě třeba 50 článků... Napsal jsem tedy jednoduchý JS skript, který řeší „šablonování“ na straně klienta. Jistě existuje spousta client-side šablonovacích systémů, ale já potřeboval něco jednoduchého a nehledal jsem kanón na vrabce. V době psaní článku vypadá skript takto:
 </p>
-<pre>
+<pre class="prettyprint">
 $(document).ready(function () {
     var addressElements = window.location.href.split(&quot;?&quot;);
     var len = addressElements.length;
@@ -32,3 +32,4 @@ $(document).ready(function () {
 <p>
     Celý blog si můžete stáhnout z <a href="https://github.com/nigol/blog.nigol.cz">Githubu</a>. Budu tam posílat všechny změny, které udělám. Příští příspěvek na blog snad napíšu dřív, než za 8 měsíců :).
 </p>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>

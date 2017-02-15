@@ -26,7 +26,7 @@
 	Ok, let's start with some motivation why we should thing about it. Imagine you have a service 
 	class, which contains the following method: 
 	</p>
-<pre>
+<pre class="prettyprint">
 public void output(String msg) {
 	System.out.println(msg);			// Actual action code.
 }
@@ -36,7 +36,7 @@ public void output(String msg) {
     if there is a need to perform this action transactionally? So basically we need to perform some 
     action at the beginning and at the end of the method. We have something like this: 
 </p> 
-<pre>
+<pre class="prettyprint">
 public void output(String msg) {
 	System.out.println("--Start Transaction");	// Code for transaction start.
 	System.out.println(msg);			// Actual action code.
@@ -52,7 +52,7 @@ public void output(String msg) {
 	you can create methods like <code>beginTransaction()</code>, <code>endTransaction()</code> and write 
 	something like this:
 	</p>
-	<pre>
+<pre class="prettyprint">
 public void output(String msg) {
 	beginTransaction();				// Code for transaction start.
 	System.out.println(msg);			// Actual action code.
@@ -67,7 +67,7 @@ public void output(String msg) {
 	Our goal is to have transactional behavior defined somehow declarative. For this declarative 
 	approach, annotations help us a lot. The result will look like:
 </p>
-<pre>
+<pre class="prettyprint">
 @Transaction
 public void output(String msg) {
 	System.out.println(msg);			// Actual action code.
@@ -84,7 +84,7 @@ public void output(String msg) {
 	which method should be transactional-aware. Methods, which are not annotated will be processed 
 	in normal way.
 </p>
-<pre>
+<pre class="prettyprint">
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Transaction {
@@ -96,7 +96,7 @@ public @interface Transaction {
 	Java proxy object, it is called <mark>invocation handler</mark> and this code is called for 
 	<strong>every</strong> single method invocation of defined proxy object.
 </p>
-<pre>
+<pre class="prettyprint">
 public class MyInvocationHandler&lt;T&gt; implements InvocationHandler {
 
     private final T proxied;
@@ -136,7 +136,7 @@ public class MyInvocationHandler&lt;T&gt; implements InvocationHandler {
 	Instead of standard instantiation like <code>Object o = new Object();</code>, we must create proxy 
 	object based on regular object's instance.
 </p>
-<pre>
+<pre class="prettyprint">
 MyInvocationHandler<Service> invocationHandler = new MyInvocationHandler<Service>(new ServiceImpl());
 Service service = (Service) Proxy.newProxyInstance(ServiceImpl.class.getClassLoader(),
           new Class[]{Service.class}, invocationHandler);
@@ -150,6 +150,6 @@ Service service = (Service) Proxy.newProxyInstance(ServiceImpl.class.getClassLoa
 	You can download all source code for this article on 
 	<a href="https://github.com/nigol/proxy-demo">Github</a>. It can help you understand the whole
 	concept. It is fully working example available as Maven project. Feel free to modify and reuse 
-	the code as you want. 
-	 
+	the code as you want.
 </p>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>

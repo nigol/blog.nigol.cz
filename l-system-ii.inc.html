@@ -145,7 +145,7 @@ then we can step thru following input <code>F-F++F-F</code>. Let's assume, that 
 <p>
     Ok, let's see what is happening. After you press <span class="btn-xs btn-primary">Iterate</span> button, function <code>doNextIteration(previous, rules)</code> is called with parameters <code>previous</code> (containing string made in previous step) and <code>rules</code> (array with rewriting rules).
 </p>
-<pre>
+<pre class="prettyprint">
     function doNextIteration(previous, rules) {
         let result = "";
         let rul = {};
@@ -168,7 +168,7 @@ then we can step thru following input <code>F-F++F-F</code>. Let's assume, that 
 <p>
     Now, when we have final string, we pass it to the turtle graphics module. All functionality is implemented in file <code>turtle.js</code>. First we have to create 'instance' of the turtle like <code>let turtle = Turtle(context, maxx, maxy);</code>, where <code>context</code> is HTML canvas 2d context, <code>maxx, maxy</code> are defining size of the canvas. We can call commands on that <code>turtle</code> object. Main function for perform actual drawing is <code>draw(sentence)</code> defined as:
 </p>
-<pre>
+<pre class="prettyprint">
     this.draw = function (sentence) {
         let splitted = sentence.split("");    // split to the array of letters
         context.beginPath();        // start with new drawing path
@@ -184,7 +184,7 @@ then we can step thru following input <code>F-F++F-F</code>. Let's assume, that 
 <p>
     I think the code is quite clear, maybe two things are woth of explaining. Function <code>init()</code> sets state of the turtle to the initial one and clears the canvas. Second, not so obvious thing could be, where the <code>fn</code> object comes from and how it looks like. Let's see the following code:
 </p>
-<pre>
+<pre class="prettyprint">
     fn = {
         "f": function () {
             let newState = {
@@ -220,3 +220,4 @@ then we can step thru following input <code>F-F++F-F</code>. Let's assume, that 
 <p>
     I hope, you now have some overview over such interesting topic, which L&#8211;system, with no doubt, is. You can also read <a href="/article.html?l-system">first article</a> describing application from the common user point of view. I will be happy as well, when you clone and play with sources from <a href="https://github.com/nigol/l-system">Github repository</a> :). For further reference, search the net. And you can read book <a href="http://algorithmicbotany.org/papers/abop/abop.pdf">The Algorithmic Beauty of Plants</a> by Aristid Lindenmayer and Przemyslaw Prusinkiewicz. It is on my TO-READ list too ;).
 </p>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
