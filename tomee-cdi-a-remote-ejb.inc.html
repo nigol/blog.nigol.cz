@@ -1,0 +1,122 @@
+<h2>TomEE, CDI a remote EJB.<br><small>09.04.2017</small></h2>
+
+<p class="lead">
+    Název dnešního článku vypadá trošku krypticky, ale myslím, že ti, které by mohl zaujmout, jistě tuší o čem si budeme povídat. Vracíme se k programovacímu jazyku Java, konkrétně k tématům z Enterprise Edition (EE) Javy. Předpokládám, že čtenář je obeznámen s tvorbou webových aplikací v Javě EE.
+</p>
+
+<p>
+    Hned na začátku bychom si měli popsat, alespoň rámcově, použité technologie. Pokud vyvíjíte aplikaci v Java EE, potřebujete aplikační server, na kterém bude aplikace běžet. Aplikačních serverů existuje více &#8211; od open source (a obvykle zdarma dostupných) jako například <a href="https://glassfish.java.net">Glassfish</a>, <a href="http://wildfly.org">Wildfly</a> nebo <a href="http://tomee.apache.org/apache-tomee.html">Apache TomEE</a> až po komerční jako <a href="http://www.oracle.com/technetwork/middleware/weblogic/overview/index-085209.html">Oracle Weblogic</a> nebo <a href="http://www-03.ibm.com/software/products/en/appserv-was">IBM WebSphere</a>. Já jsem vybral Apache TomEE především proto, že je kompatibilní s <a href="http://tomcat.apache.org">Apache Tomcat</a>, což byl jeden z požadavků. Apache Tomcat je velice populární servlet kontejner a TomEE je v podstatě Tomcat rozšířený o implementaci Javy EE. V aktuální verzi 7.x implementuje Java EE 7 standard, což byl druhý požadavek.
+</p>
+
+<h3>Motivace.</h3>
+
+<p>
+    Pokud vytváříme monolitickou (všechny části aplikace jsou součástí distribučního WAR archivu) Java EE web aplikaci s uživatelským rozhraním implementovaným pomocí <abbr title="Java Server Faces">JSF</abbr> a k propojení jednotlivých komponent aplikace používáme <abbr title="Context and Dependency Injection">CDI</abbr>, vše je snadné. Jestliže potřebujeme například v <a href="https://docs.oracle.com/cd/E19798-01/821-1841/6nmq2cott/index.html">backing bean</a> volat metody ze servisní třídy, použijeme něco takového:
+</p>
+
+<pre class="prettyprint">
+@Named
+@RequestScope
+public class MyBean {
+    @Inject
+    private MyService myService;
+    &hellip;
+}
+</pre>
+
+<p>
+    Metody potom můžeme volat třeba <code>myService.myMethod();</code> &#8211; CDI se již postará o přiřazení správné instance do <code>myService</code>. Situace je znázorněna na <em>Obr. 1</em>.
+</p>
+
+<p style="text-align: center">
+    <img src="/images/tomee-cdi-a-remote-ejb/server-1.png" srcset="/images/tomee-cdi-a-remote-ejb/server-1.png, /images/tomee-cdi-a-remote-ejb/server-1.png 2x"></img>
+    <br />
+    <em>Obr. 1</a></em>
+</p>
+
+<p>
+    Pokud však nastane situace, kdy potřebujeme mít servisní třídy na fyzicky odděleném serveru, jako na <em>Obr. 2</em>, je situace složitější.
+</p>
+
+<p style="text-align: center">
+    <img src="/images/tomee-cdi-a-remote-ejb/server-2.png" srcset="/images/tomee-cdi-a-remote-ejb/server-2.png, /images/tomee-cdi-a-remote-ejb/server-2.png 2x"></img>
+    <br />
+    <em>Obr. 2</a></em>
+</p>
+
+<p>
+    Na serveru Server 2 je umístěna pouze servisní vrstva, která má přístup například k databázi, je bezstavová a vrací pouze data pro další zpracování &#8211; nemá žádné uživatelské rozhraní. Naopak na serveru Server 1 (a takových serverů může být více) je nasazena pouze část aplikace odpovědná za uživatelské rozhraní. Tato část aplikace nemá informace o databázi a dalších technologiích v pozadí &#8211; zná pouze Server 2 na který se napojuje. 
+</p>
+
+<h3>Jak na to?</h3>
+
+<p>
+    Je zřejmé, že musíme nějakým způsobem zajistit komunikaci mezi oběma servery. K tomu lze použít například univerzální <a href="https://cs.wikipedia.org/wiki/SOAP">SOAP</a> nebo <a href="https://cs.wikipedia.org/wiki/Representational_State_Transfer">REST</a> protokol. Pokud jsou však obě části aplikace implementované v Javě, můžeme s výhodou použít Remote EJB. Technologie Remote EJB (Enterprise Java Bean) umožňuje volání metod objektů umístěných na fyzicky odděleném serveru stejně, jako by byly dostupné lokálně. Vzhledem k tomu, že jak EJB server, tak klient poběží na rozdílných serverech, musíme deklarovat rozhraní (interface) pro servisní třídy a případné datové objekty do zvláštního balíčku (například <code>*.jar</code> souboru). Tento balíček pak musíme použít jak na straně EJB serveru (kde budou rozhraní implementována), tak na straně klienta (kde budou rozhraní volána). Pokud se podíváme na <em>Obr. 2</em>, EJB serverem je myšlen Server 2 a EJB klientem pak Server 1. 
+</p>
+
+<p>
+    Bylo by dobré, pokud by volání služeb ze vzdáleného serveru bylo stejně komfortní, jako použití lokálních služeb. Tedy abychom mohli pro vzdálenou servisní třídu použít jednoduchou CDI <code>@Inject</code> anotaci. Dosáhnout toho můžeme elegantně pomocí <a href="http://docs.oracle.com/javaee/6/tutorial/doc/gkgkv.html">CDI produceru</a>.
+</p>
+
+<pre class="prettyprint">
+@Named
+@ApplicationScoped
+public class RemoteEjbProducer {
+
+    @Produces
+    public Service1Ejb getService1Ejb() {
+        Service1Ejb service1Ejb = null;
+        try {
+            service1Ejb = getRemoteEjb("Service1EjbImplRemote");
+        } catch (NamingException e) {
+            // handle error
+        }
+        return service1Ejb;
+    }
+
+    private <T> T getRemoteEjb(String ejbName) throws NamingException {
+        T result;
+        Properties properties = new Properties();
+        properties.put("java.naming.factory.initial", "org.apache.openejb.client.RemoteInitialContextFactory");
+        properties.put("java.naming.provider.url", "http://localhost:8080/services/ejbs/");
+        InitialContext initialContext = new InitialContext(properties);
+        result = (T) initialContext.lookup(ejbName);
+        return result;
+    }
+}
+</pre>
+
+<p>
+    <code>Service1EjbImplRemote</code> je název registrované servisní třídy. Samotná třída je pojmenovaná <code>Service1EjbImpl</code>, <em>Remote</em> k názvu přidává samotný server. Třída je anotovaná pomocí <code>@Remote</code>, aby byla volatelná přes Remote EJB rozhraní. Adresa <code>http://localhost:8080/services/ejbs/</code> je pak adresa serveru s Remote EJB, servisní třídy jsou deployované v kontextu <em>services</em> &#8211; aplikace je na server deployovaná jako <em>services.war</em>. Potom už můžeme kdekoliv v CDI beaně použít:
+
+<pre class="prettyprint">
+@Named
+@RequestScope
+public class MyBean {
+    @Inject
+    private Service1Ejb service1Ejb;
+    &hellip;
+}
+</pre>
+
+s tím, že <code>Service1Ejb</code> interface je definovaný v samostatném balíčku, použitém jak na Remote EJB serveru, tak i klientu.
+</p>
+
+<p>
+Poslední věc, kterou je třeba nastavit, je bezpečnostní politika. TomEE totiž z bezpečnostních důvodů standardně blokuje jákékoliv volání Remote EJB. Proto musíme v konfiguračním souboru <em>system.properties</em> nastavit:
+
+<pre class="prettyprint">
+tomee.serialization.class.blacklist = -
+tomee.serialization.class.whitelist = *
+</pre>
+
+čímž povolíme vzdálené spouštění všech tříd. To je dobré pro vývoj, pro produkční nasazení bude lépe nastavit volby restritivněji, viz <a href="http://tomee.apache.org/ejbd-transport.html">http://tomee.apache.org/ejbd-transport.html</a>.
+</p>
+
+<h3>Závěr.</h3>
+
+<p>
+    U aplikačního serveru TomEE je možné použít také jiný přístup, ale ten jsem zatím nezkoušel. Můžete se podívat na <a href="http://tomee.apache.org/ejb-refs.html">http://tomee.apache.org/ejb-refs.html</a>. Výhodou postupu, popsaného v tomto článku je, že jej lze aplikovat i na jiné aplikační servery (po menších úpravách), viz <a href="http://stackoverflow.com/a/39064415/3231078">Stack Overflow</a>.
+</p>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
