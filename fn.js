@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 function prepareCategories() {
     $("#sideBar").find(".label").each(function (i, v) {
-        var cl = "." + v.classList[1];
+        var cl = "." + v.classList[2];
         var count = $("#content").find(cl).length;
         if (count > 0) {
             $(v).show();

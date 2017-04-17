@@ -3,7 +3,20 @@
 }
 
 h1 {
-	font-family: Pacifico
+	font-family: 'Rubik Mono One', sans-serif;
+	color: #dddddd;
+}
+
+.page-header {
+    height: 120px;
+    background-image: url("/images/headerBack.jpg");
+}
+
+@media only screen and (min-device-pixel-ratio: 2.0) {
+    .page-header {
+        height: 120px;
+        background-image: url("/images/headerBack2x.jpg");
+    }
 }
 
 #content {
@@ -21,4 +34,22 @@ img {
 
 .categoryFilter {
     cursor: pointer;
+}
+
+#sideBar {
+    padding-top: 2em;
+    background-color: #eeeeee;
+    border-left: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-radius: 0px 0px 5px 5px;
+    box-shadow: 1px 1px 1px #888888;
+}
+
+.categoryProgramming {
+    background-color: Crimson;
+}
+
+.categoryUncategorized {
+    background-color: DeepSkyBlue;
 }
