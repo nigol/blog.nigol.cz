@@ -3,10 +3,10 @@ $(document).ready(function () {
     var len = addressElements.length;
     var name = (len == 1) ? "index.inc.html" : addressElements[len - 1] + ".inc.html";
     $.get(name, function (data) {
-        $("#content").css({opacity: 0});
+        $("#content>.col-sm-10>.article").css({opacity: 0});
         window.setTimeout(function () {
             $("#content>.col-sm-10>.article").html(data);
-            $("#content").css({opacity: 1});
+            $("#content>.col-sm-10>.article").css({opacity: 1});
             var header = $("h2").text();
             document.title = header.substring(0, header.indexOf("."));
             $("#backToIndex").show();
