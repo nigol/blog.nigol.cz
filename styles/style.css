@@ -1,3 +1,8 @@
+body {
+    margin-bottom: 60px;
+    background-color: #F5FFFA;
+}
+
 .article-banner {
 	margin-bottom: 3em;
 }
@@ -38,12 +43,11 @@ img {
 
 #sideBar {
     padding-top: 2em;
-    background-color: #eeeeee;
+    background-color: #FFF8DC;
     border-left: 1px solid #dddddd;
     border-bottom: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
     border-radius: 0px 0px 5px 5px;
-    box-shadow: 1px 1px 1px #888888;
 }
 
 .categoryProgramming {
@@ -52,4 +56,10 @@ img {
 
 .categoryUncategorized {
     background-color: DeepSkyBlue;
+}
+
+.articleDate {
+    font-size: 140%;
+    font-weight: bold;
+    color: #FFE4E1;
 }
