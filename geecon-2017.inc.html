@@ -1,0 +1,68 @@
+<h2>geecon 2017.<br><small>07.11.2017</small></h2>
+
+<p class="lead">
+    Konference geecon pro rok 2017 je za námi. V tomto článku bych rád shrnul celkové dojmy z akce a také zajímavosti z vybraných přednášek. Samozřejmě jsem nemohl navštívit všechny, takže je možné, že mi nějaká zajímavá unikla.
+</p>
+
+<p>
+    Stejně jako <a href="/article.html?geecon-2016">loni</a>, i letos jsem měl možnost zúčastnit se konference <a href="https://2017.geecon.cz">geecon</a> určené především pro Java vývojáře. Konferenci byl opět vyhrazen čtvrtek a pátek, což bylo fajn, neboť plynule navazoval víkend :). Místem konání bylo, jako již tradičně, multikino v obchodním centru na Černém mostě. To je dobrá volba, protože je dobře dostupné metrem a navíc nejsou žádné problémy s čitelností slidů na velkém plátně. Tentokrát jsme se zúčastnili z práce v plné sestavě &#8211; tedy celý tým. Organizátoři se opět snažili a všechno fungovalo bez problémů. Po krátké registraci jsme obdrželi jmenovku, batůžek a pár dalších drobností. Později také tričko (tentokrát rozhodné lepší než loni) a konferenční hrneček:
+</p>
+
+<p style="text-align: center">
+    <img src="/images/geecon-2017/hrnecek.jpg"></img>
+    <br />
+    <em>Slušivý hrneček :)</em>
+</p>
+
+<p>
+    Ve čtvrtek večer byla taktéž připravena párty pro účastníky, ale po poradě s kolegy jsme vyrazili na vlastní pěst a dali si pivo a steak v jedné žižkovské restauraci. Ještě krátce k občerstvení. Rozhodně bylo lepší, než loni a hlavně obědy byly lepší. Zázemí tedy bylo připraveno dobře, pojďme se podívat na vybrané přednášky.
+</p>
+
+<p>
+    Nebudu se řídit heslem &bdquo;nejlepší nakonec&ldquo; a tak začnu přednáškou, o které si myslím, že byla nejlepší z těch, co jsem viděl. Ano, vyhrál to <a href="http://adam-bien.com">Adam Bien</a> s &bdquo;"Built To Last" ...and the end of migrations&ldquo;. Nejde úplně tolik o obsah, ale hlavně o formu. Je vidět, že Adam má bohaté zkušenosti s přednášením a celá jeho přednáška byla slušná show.
+</p>
+
+<p style="text-align: center">
+    <img src="/images/geecon-2017/adam-bien.jpg"></img>
+    <br />
+    <em>Adam Bien</em>
+</p>
+
+<p>
+    Přednáška byla tematicky zaměřena na tvorbu webových aplikací s tím, že backend je vytvořen v Javě pomocí standardních technologií JEE a frontend pak pomocí HTML5, CSS a JS. Adam je znám tím, že má rád standardy a proto na serveru vždy propaguje klasický JEE standard. Tedy žádný Spring a podobné technologie. V tomto s ním naprosto souhlasím a myslím, že dnes opravdu není třeba důvod používat něco jiného. Pokud totiž použijete klasický JEE server (myslím kompletní, ne jen servlet kontejner jako třeba Tomcat), vaše aplikace s sebou nepotřebuje vláčet spoustu knihoven, které často duplikují funkcionalitu dostupnou přímo v aplikační serveru. Podobný přístup se pak snažil Adam propagovat i v případě frontendu. Bohužel tady už s ním nemohu plně souhlasit. Co se týká podpory HTML5 a CSS layoutu, zde už problém téměř není &#8211; věci jako <a href="http://caniuse.com/#feat=css-grid">Grid layout</a> nebo <a href="https://caniuse.com/#feat=flexbox">Flexbox</a> začínají být solidně podporované. Nicméně co se týče JS, tady bych rozhodně cestou, která byla prezentována, nešel. Adam používal klasický JS bez jakéhokoliv frameworku. Což pro menší věci může fungovat v pohodě, bohužel pro větší projekty už to začne být problém a člověk si musí stejně připravit něco jako framework, jinak skončí s hromadou špagetového kódu. Znám to z práce na jednom větším projektu, kde se postupně přidávala interaktivita pomocí JS. Proto si myslím, že použít například <a href="https://reactjs.org">React</a> je rozumná volba. Ovšem i tak považuji přednášku za velmi zdařilou a opravdu se mi líbila.
+</p>
+
+<p>
+    Zajímavá byla také přednáška <a href="http://arhipov.blogspot.cz">Antona Arhipova</a> &bdquo;TestContaners Integration testing without hassle&ldquo;. <a href="https://github.com/testcontainers/testcontainers-java">TestContainers</a> je knihovna, která umožňuje přímo z JUnit testů spouštět vybrané moduly (např. Postresql, nginx, Selenium) jako virtualizované kontejnery pomocí <a href="https://www.docker.com">Dockeru</a>. Vše nastavíte přímo v JUnit testu, rovnou v Javě. 
+</p>
+
+<p style="text-align: center">
+    <img src="/images/geecon-2017/testcontainers.jpg"></img>
+    <br />
+    <em>TestContainers</em>
+</p>
+
+<p>
+    Díval jsem se zběžně na zdrojáky a další moduly by měly jít přidat celkem snadno. Přemýšlel jsem, že bych se pokusil v práci nějak integrovat TestContainers do testovacího procesu, ale z momentálně dostupných modulů bychom asi použili jenom modul pro Selenium. Na databázi používáme Oracle, takže tam by to nešlo. Na druhé straně u nových projektů se snažíme používat JPA, takže se databáze dá celkem v pohodě testovat například pomocí <a href="http://hsqldb.org">HSQL</a>. Navíc se mi nepodařilo na pracovním počítači plně rozchodit Docker (kvůli proxy). Uvidíme v budoucnu.
+</p>
+
+<p>
+    Dále jsem se zúčastnil přednášky <a href="https://www.linkedin.com/in/christian-thalinger-7a203347/">Chrise Thalingera</a> &bdquo;Twitter's quest for a wholly Graal runtime&ldquo;. Chris pracoval na vývoji JVM u Sunu, Oraclu a nyní u Twitteru. Právě u Twitteru se se svým týmem zabývá způsoby, jak co nejefektivněji spouštět Java bytekód. Pokud totiž máte dostatečně velký počet serverů pro běh aplikace (což Twitter určitě má), každé procento urychlení aplikace je znát. Vzhledem k tomu, že klasický JVM HotSpot kompiler <a href="http://www.oracle.com/technetwork/articles/java/architect-evans-pt1-2266278.html">C2</a> není pro ladění a úpravy příliš vhodný, zkouší to v Twitteru s <a href="https://github.com/graalvm/graal">Graal VM</a>. Letos už to začíná vypadat s Graal VM velice slušně a v Twitteru už na něm dokonce některé služby běží v produkčním nasazení. Asi pomalu nastává čas jej taky vyzkoušet. Mimochodem &#8211; v JDK 9 už je experimentálně zahrnut. Pokud byste jej chtěli použít, na obrázku vidíte, jak:
+</p>
+
+<p style="text-align: center">
+    <img src="/images/geecon-2017/graal.jpg"></img>
+    <br />
+    <em>Jak na Graal VM v JDK 9</em>
+</p>
+
+<p>
+    Momentálně to v zaměstnání moc neuplatním, protože žádnou aplikaci neškálujeme přes desítky nebo stovky serverů, ale v budoucnu kdoví :).
+</p>
+
+<p>Zajímavých přednášek bylo samozřejmě víc &#8211; například &bdquo;Building a Smart Security Camera with Raspberry Pi Zero, Java and AWS&ldquo;, kde autor popisoval DIY bezpečnostní kameru, která detekuje pohyb, ale poplach vyvolá jen v případě, že je na snímku člověk. Dokonce jsme se na přednášce &bdquo;Sequencing Dance Music with Clojure&ldquo; naučili vytvářet hudbu pomocí kódu v jazyku Clojure.
+</p>
+
+<p>
+    V pátek večer nás pak už čekala klobása na Václavském náměstí a cesta vlakem domů :). Z návštěvy geeconu se už u nás v práci stává tradice, tak snad to nezakřiknu a příští rok se podíváme opět.
+</p>

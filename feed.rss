@@ -3,7 +3,15 @@
   <channel> 
     <title>Martin Polák &#8211; blog</title> 
     <link>http://blog.nigol.cz</link> 
-    <description>Programming and anything.</description> 
+    <description>All or nothing.</description> 
+    
+    <item> 
+      <title>geecon 2017.</title> 
+      <link>http://blog.nigol.cz/article.html?geecon-2017</link>
+      <guid>blog.nigol.cz/article.html?geecon-2017</guid>
+      <description>Konference geecon pro rok 2017 je za námi. V tomto článku bych rád shrnul celkové dojmy z akce a také zajímavosti z vybraných přednášek. Samozřejmě jsem nemohl navštívit všechny, takže je možné, že mi nějaká zajímavá unikla.</description>
+      <pubDate>Tue, 07 Nov 2017 00:00:00 GMT</pubDate> 
+    </item>
     
     <item> 
       <title>Příprava na geecon 2017.</title> 
