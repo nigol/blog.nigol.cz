@@ -50,16 +50,24 @@ img {
     border-radius: 0px 0px 5px 5px;
 }
 
-.categoryProgramming {
-    background-color: Crimson;
+.articleDate {
+    font-size: 140%;
+    font-weight: bold;
+    color: #FFE4E1;
+}
+
+.categoryJava {
+    background-color: BlueViolet;
 }
 
 .categoryUncategorized {
     background-color: DeepSkyBlue;
 }
 
-.articleDate {
-    font-size: 140%;
-    font-weight: bold;
-    color: #FFE4E1;
+.categoryJavascript {
+    background-color: Brown;
+}
+
+.categoryEjb {
+    background-color: Chocolate;
 }
