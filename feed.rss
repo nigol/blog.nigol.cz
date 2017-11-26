@@ -6,6 +6,14 @@
     <description>All or nothing.</description> 
     
     <item> 
+      <title>How to set up AWS CodeCommit with Codenvy IDE.</title> 
+      <link>http://blog.nigol.cz/article.html?codenvy-aws-codecommit</link>
+      <guid>blog.nigol.cz/article.html?codenvy-aws-codecommit</guid>
+      <description>Recently I needed to set up some private Git repository. I know, it is possible with some free Git hosting providers, but I have an AWS account, so I decided to set up repository with CodeCommit service. Unfortunatelly, I didn't find any decent documentation, how to configure it with Codenvy online IDE. I hope this article would fill the gap.</description>
+      <pubDate>Sun, 26 Nov 2017 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
       <title>geecon 2017.</title> 
       <link>http://blog.nigol.cz/article.html?geecon-2017</link>
       <guid>blog.nigol.cz/article.html?geecon-2017</guid>
