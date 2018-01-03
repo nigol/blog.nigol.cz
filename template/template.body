@@ -1,0 +1,63 @@
+<div class="container">
+    
+    <div class="row">
+        <div id="content">
+            <div class="col-sm-10">
+                <div class="page-header">
+                    <h1>Martin Polák &#8211; blog</h1>
+                </div>
+                <div class="article">
+                </div>
+                <ul class="pager" id="backToIndex">
+                    <li><a href="/index.html">Back to index</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-2" id="sideBar">
+            <p style="text-align: center">
+                <img src="/images/me.jpg" class="img-circle" alt="Me on photo." width="150" height="150">
+            </p>
+            <p style="text-align: center">
+                <a class="btn btn-social-icon btn-linkedin" href="https://cz.linkedin.com/in/martin-polák-268028a">
+                    <span class="fa fa-linkedin"></span>
+                </a>
+                <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/nigolcz">
+                    <span class="fa fa-twitter"></span>
+                </a>
+                <a class="btn btn-social-icon btn-github" href="https://github.com/nigol">
+                    <span class="fa fa-github"></span>
+                </a>
+            </p>
+            <p style="text-align: center">
+                <i class="fa fa-comments"></i> → nigol@nigol.cz
+            </p>
+            <p style="text-align: center">
+                <span class="label label-default categoryUncategorized categoryFilter" style="display: none">uncategorized</span> <span class="badge"></span>
+                <br /><br />
+                <span class="label label-default categoryJava categoryFilter" style="display: none">java</span> <span class="badge"></span>
+                <br /><br />
+                <span class="label label-default categoryEjb categoryFilter" style="display: none">ejb</span> <span class="badge"></span>
+                <br /><br />
+                <span class="label label-default categoryJavascript categoryFilter" style="display: none">javascript</span> <span class="badge"></span>
+                <br /><br />
+                <span class="label label-default categoryAws categoryFilter" style="display: none">AWS</span> <span class="badge"></span>
+            </p>
+            <p style="text-align: center">
+                <a href="http://l-system.nigol.cz">
+                    <img src="/images/plant180.png" alt="L-system"></img>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p>
+            <span class="text-muted">Martin Polák 2017.</span>
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" srcset="https://i.creativecommons.org/l/by/4.0/88x31.png, https://i.creativecommons.org/l/by/4.0/88x31.png 2x"/></a><br />Toto dílo podléhá licenci <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Uveďte původ 4.0 Mezinárodní License</a>.
+        </p>
+    </div>
+</footer>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>

@@ -3,11 +3,11 @@
   <channel> 
     <title>Martin Polák &#8211; blog</title> 
     <link>http://blog.nigol.cz</link> 
-    <description>All or nothing.</description> 
+    <description>Martin Polák, blog, programming, Java, JavaScript, L-system, fractal, AWS.</description> 
     
     <item> 
       <title>How to set up AWS CodeCommit with Codenvy IDE.</title> 
-      <link>http://blog.nigol.cz/article.html?codenvy-aws-codecommit</link>
+      <link>http://blog.nigol.cz/codenvy-aws-codecommit.html</link>
       <guid>blog.nigol.cz/article.html?codenvy-aws-codecommit</guid>
       <description>Recently I needed to set up some private Git repository. I know, it is possible with some free Git hosting providers, but I have an AWS account, so I decided to set up repository with CodeCommit service. Unfortunatelly, I didn't find any decent documentation, how to configure it with Codenvy online IDE. I hope this article would fill the gap.</description>
       <pubDate>Sun, 26 Nov 2017 00:00:00 GMT</pubDate> 
@@ -16,14 +16,14 @@
     <item> 
       <title>geecon 2017.</title> 
       <link>http://blog.nigol.cz/article.html?geecon-2017</link>
-      <guid>blog.nigol.cz/article.html?geecon-2017</guid>
+      <guid>blog.nigol.cz/geecon-2017.html</guid>
       <description>Konference geecon pro rok 2017 je za námi. V tomto článku bych rád shrnul celkové dojmy z akce a také zajímavosti z vybraných přednášek. Samozřejmě jsem nemohl navštívit všechny, takže je možné, že mi nějaká zajímavá unikla.</description>
       <pubDate>Tue, 07 Nov 2017 00:00:00 GMT</pubDate> 
     </item>
     
     <item> 
       <title>Příprava na geecon 2017.</title> 
-      <link>http://blog.nigol.cz/article.html?priprava-na-geecon-2017</link>
+      <link>http://blog.nigol.cz/priprava-na-geecon-2017.html</link>
       <guid>blog.nigol.cz/article.html?priprava-na-geecon-2017</guid>
       <description>Rok se s rokem sešel a je tu opět pražská odnož konference pro Java vývojáře geecon. Stejně jako loni se i letos zúčastníme s kolegy z práce. Do začátku konference zbývá týden, pojďme se tedy podívat, co by mohlo být z mého subjektivního pohledu zajímavé.</description>
       <pubDate>Tue, 10 Oct 2017 00:00:00 GMT</pubDate> 
@@ -31,7 +31,7 @@
     
     <item> 
       <title>TomEE, CDI a remote EJB.</title> 
-      <link>http://blog.nigol.cz/article.html?tomee-cdi-a-remote-ejb</link>
+      <link>http://blog.nigol.cz/tomee-cdi-a-remote-ejb.html</link>
       <guid>blog.nigol.cz/article.html?tomee-cdi-a-remote-ejb</guid>
       <description>Název dnešního článku vypadá trošku krypticky, ale myslím, že ti, které by mohl zaujmout, jistě tuší o čem si budeme povídat. Vracíme se k programovacímu jazyku Java, konkrétně k tématům z Enterprise Edition (EE) Javy. Předpokládám, že čtenář je obeznámen s tvorbou webových aplikací v Javě EE.</description>
       <pubDate>Sun, 09 Apr 2017 00:00:00 GMT</pubDate> 
@@ -39,7 +39,7 @@
     
     <item> 
       <title>L&#8211;system II.</title> 
-      <link>http://blog.nigol.cz/article.html?l-system-ii</link>
+      <link>http://blog.nigol.cz/l-system-ii.html</link>
       <guid>blog.nigol.cz/article.html?l-system-ii</guid>
       <description>As I promised before, this is the second article concerning L&#8211;system topic. This time we will try to cover a little bit theory and also implementation details of L&#8211;system web application implemented in JavaScript.</description>
       <pubDate>Wed, 11 Jan 2017 00:00:00 GMT</pubDate> 
@@ -47,7 +47,7 @@
     
     <item> 
       <title>L-system.</title> 
-      <link>http://blog.nigol.cz/article.html?l-system</link>
+      <link>http://blog.nigol.cz/l-system.html</link>
       <guid>blog.nigol.cz/article.html?l-system</guid>
       <description>In last few days, I implemented &#8211; just for fun (you know, programmer :)) &#8211; something called L&#8211;system or Lindenmayer system.</description>
       <pubDate>Tue, 27 Dec 2016 00:00:00 GMT</pubDate> 
@@ -55,7 +55,7 @@
     
     <item> 
       <title>geecon 2016.</title> 
-      <link>http://blog.nigol.cz/article.html?geecon-2016</link>
+      <link>http://blog.nigol.cz/geecon-2016.html</link>
       <guid>blog.nigol.cz/article.html?geecon-2016</guid>
       <description>Ve dnech 20. a 21.10.2016 jsem v Praze navštívil konferenci geecon. Jedná se o konferenci zaměřenou na platformu Java &#8211; jak na samotný jazyk Java tak i JVM a jazyky na něm založené. Pořadatelem je Polish JUG, která je &#8211; alespoň dle webu &#8211; dosti aktivní.</description>
       <pubDate>Sun, 06 Nov 2016 00:00:00 GMT</pubDate> 
@@ -63,7 +63,7 @@
     
     <item> 
       <title>Java proxy objects for Interceptor implementation.</title> 
-      <link>http://blog.nigol.cz/article.html?pozadi</link>
+      <link>http://blog.nigol.cz/pozadi.html</link>
       <guid>blog.nigol.cz/article.html?pozadi</guid>
       <description>Možná bude někoho zajímat, jakým způsobem je tento blog vyřešen po technické stránce. Je totiž hostován na službě AWS S3, která umožňuje uložení a hosting pouze statických dat.</description>
       <pubDate>Sun, 09 Oct 2016 00:00:00 GMT</pubDate> 
@@ -71,7 +71,7 @@
     
     <item> 
       <title>Java proxy objects for Interceptor implementation.</title> 
-      <link>http://blog.nigol.cz/article.html?java-proxy-objects-for-interceptor</link>
+      <link>http://blog.nigol.cz/java-proxy-objects-for-interceptor.html</link>
       <guid>http://blog.nigol.cz/article.html?java-proxy-objects-for-interceptor</guid>
       <description>Maybe you heard something about design 
                         	patterns before. Design patterns could be 
@@ -83,7 +83,7 @@
     
     <item> 
       <title>Pár vřelých vět na úvod.</title> 
-      <link>http://blog.nigol.cz/article.html?par-vrelych-vet-na-uvod</link>
+      <link>http://blog.nigol.cz/par-vrelych-vet-na-uvod.html</link>
       <guid>http://blog.nigol.cz/article.html?par-vrelych-vet-na-uvod</guid>
       <description>Zdá se, že doba blogů a blogísků už pominula. 
                             Respektive pominula doba, kdy mít blog bylo něco 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>How to set up AWS CodeCommit with Codenvy IDE.</title>
+    </head>
+    <body>
+        <article>
+        	<h2>How to set up AWS CodeCommit with Codenvy IDE.<br><small>26.11.2017</small></h2>
+
+            <p class="lead">
+                Recently I needed to set up some private Git repository. I know, it is possible with some free Git hosting providers, but I have an AWS account, so I decided to set up repository with CodeCommit service. Unfortunatelly, I didn't find any decent documentation, how to configure it with Codenvy online IDE. I hope this article would fill the gap.
+            </p>
+            
+            <p>
+                Basically it is not that hard to set the thing up, but there is a one tricky part. I am writting this article also as a reminder for myself &#8211; whenever I'll need such configuration in future, I'll simply read the blog :). 
+            </p>
+            
+            <p>
+                Let's start with small overview, what is AWS CodeCommit and Codenvy IDE. <a href="https://aws.amazon.com/codecommit/">AWS CodeCommit</a> is a managed source control service, enabling you to host private Git repositories. All you need is an <a href="https://aws.amazon.com/">AWS</a> account. For the first 5 users, you'll get the service for free, if your usage doesn't exceed certain limits (50 GB of storage per month and 10 000 Git requests per month). You'll also get unlimited number of repositories. Sounds good to me. <a href="https://codenvy.com">Codenvy</a> is a cloud based workspace and IDE, based heavilly on Docker, which allows you to develop right inside you browser (even for example from iPad, as I am doing). Also, you can collaborate from your local editor/IDE (or online IDE) with your teammates. Codenvy supports also VCS and Git is of course supported. We have to connect both now.
+            </p>
+            
+            <p>
+                We need to set up the repository first. Log into the AWS console and go to the CodeCommit service page. On the dashboard, click <strong>Create repository</strong> button. When clicked, create repository page is raised:
+            </p>
+            
+            <p style="text-align: center">
+                <img src="/images/codenvy-aws-codecommit/create-repository.png"></img>
+                <br />
+                <em>Create repository</em>
+            </p>
+            
+            <p>
+                Fill the <strong>Repository name</strong>, optionally <strong>Description</strong> and confirm. Store SSH URL of your repository for later usage. Now switch to the Codenvy IDE. I suppose, you have a project, which will be pushed to the CodeCommit's repository. Create the repository first &#8211; select menu <strong>Git &#8211; Initialize repository...</strong>. Now we need to configure SSH key for Git remote. Codenvy has the functionality for generating keys, hence we can use it. Go to <strong>Profile &#8211; Preferences &#8211; SSH &#8211; VCS</strong> and use <strong>Generate key</strong> button. Fill in host name from previously stored SSH URL, e.g. <code>git-codecommit.eu-west-1.amazonaws.com</code> like in my case. Under the <strong>Public Key</strong> column, press <strong>View</strong> button and copy public key.
+            </p>
+            
+            <p style="text-align: center">
+                <img src="/images/codenvy-aws-codecommit/codenvy-keys.png"></img>
+                <br />
+                <em>Codenvy keys management</em>
+            </p>
+            
+            <p>
+                Back to the AWS. Because our repository is currently unreachable from outside, we have to assign the authentication details. There is <a href="https://console.aws.amazon.com/iam/home">IAM</a> service for such purposes. Go to <a href="https://console.aws.amazon.com/iam/home#/users$new?step=details">Add user</a>, fill <strong>Username</strong> and select <strong>Access type</strong> as <strong>Programmatic access</strong>. In next step, assign required permission. Usually you would like to have full access to the repository, select <strong>AWSCodeCommitFullAccess</strong> then. Otherwise choose option more suitable for your intention.
+            </p>
+            
+            <p style="text-align: center">
+                <img src="/images/codenvy-aws-codecommit/iam-permissions.png"></img>
+                <br />
+                <em>Assigning permissions</em>
+            </p>
+            
+            <p>
+                Finish user creation. Make sure, you are in <strong>Users</strong> section, select just created user and go to the <strong>Security credentials</strong> tab. Click <strong>Upload SSH public key</strong> button and paste public key obtained from Codenvy in corresponding dialog. When key is imported, copy <strong>SSH key ID</strong>:
+            </p>
+            
+            <p style="text-align: center">
+                <img src="/images/codenvy-aws-codecommit/iam-ssh-key.png"></img>
+                <br />
+                <em>SSH key ID</em>
+            </p>
+            
+            <p>
+                We are ready with AWS part now, switch to the Codenvy. We'll configure repository, add remote and set authentication. Open again the workspace with project you want to push to the CodeCommit. Now go to the <strong>Git &#8211; Initialize Repository...</strong> and confirm the dialog. For remotes configuration, go to <strong>Git &#8211; Remotes... &#8211; Remotes...</strong> and select <strong>Add</strong> in the following dialog. Fill <strong>Name</strong> &#8211; pick whatever you want and <strong>Location</strong> &#8211; URL we copied in CodeCommit's configuration panel earlier.
+            </p>
+            
+            <p style="text-align: center">
+                <img src="/images/codenvy-aws-codecommit/remote-configuration.png"></img>
+                <br />
+                <em>Remote configuration</em>
+            </p>
+            
+            <p>
+                If we now try to push to the remote repository, it would fail due to the wrong authentication. Here our small trick comes to the show. Because we are using SSH for data transfer, we have to configure it properly. Create file <code>config</code> in root folder of you project. File should look like:
+            </p>
+            
+            <pre class="prettyprint">
+            Host &lt;hostname&gt;
+            User &lt;username&gt;
+            </pre>
+            
+            <p>
+                For <code>hostname</code> substitute hostname from SSH URL of your repository (e.g. git-codecommit.eu-west-1.amazonaws.com) and for <code>username</code> use <strong>SSH key ID</strong> we copied before. When the file is ready, switch to the terminal (at the bottom of screen) and enter <code>cd /home/user/.ssh</code> &#8211; change folder to the SSH configuration folder. Then use command <code>cp /projects/&lt;project_name&gt;/config ./</code>, substitute <code>project_name</code> by your project name. Now we are ready and we can use just configured remote repository for fetching and pushing.
+            </p>
+            
+            <p style="text-align: center">
+                <img src="/images/codenvy-aws-codecommit/terminal.png"></img>
+                <br />
+                <em>Terminal in Codenvy IDE</em>
+            </p>
+            </p>
+        </article>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/template/template.js"></script>
+    </body>
+</html>

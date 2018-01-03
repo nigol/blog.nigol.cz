@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>L&#8211;system.</title>
+    </head>
+    <body>
+        <article>
+        	<h2>L&#8211;system.<br><small>27.12.2016</small></h2>
+            <p class="lead">
+                In last few days, I implemented &#8211; just for fun (you know, programmer :)) &#8211; something called L&#8211;system or Lindenmayer system. 
+            </p>
+            <p>
+                What is this L&#8211;system all about? It is some kind of formal grammar system brought by Hungarian biologist <a href="https://en.m.wikipedia.org/wiki/Aristid_Lindenmayer">Aristid Lindenmayer</a>. He designed it to be formal system to describe growt of plants, see <a href="https://en.m.wikipedia.org/wiki/L-system">L-system on Wikipedia</a>. Basically, you set some starter sentence (called axiom) and rules, which controls the evolution of the system. In every iteration (or generation), these rules are applied on the previous result &#8211; system is evolving. To be more attractive, app is displaying the results in graphical manner using <a href="https://en.m.wikipedia.org/wiki/Turtle_graphics">Turtle graphics</a>. I will describe it in more detail in following article (including my implemetation details), this time we'll look at the implementation from the common user point of view. It is implemented as web application in JavaScript and user interface looks like:
+            </p>
+            <p style="text-align: center">
+                <img src="/images/l-system/l-system-ui.png"></img>
+            </p>
+            <p>
+                Top left you find canvas, where the final 'art' is drawn. Next on the right side, there is a box with settings. Starting from top, you can select some prepared examples like Koch's curve or Sierpienski triangle, set angle for turtle graphics output, set axiom and define rewritting rules ('<strong>Pattern</strong>' is rewritten to the '<strong>Replace</strong>'). When you click on <span class="btn-xs btn-primary">Set</span>, current state is cleared and new state is set according to the settings box. Finally clicking on <span class="btn-xs btn-default">Add rule</span> adds new rewritting rule to the table of rules. Bottom of the screen is designed to be the log of application activity. You can <span class="btn-xs btn-primary">Iterate</span> step further or <span class="btn-xs btn-default">Clear history</span> (clears the history of iterations). In table, you can see the whole history (unless you clear it), axioms (0. iterations) is green colored.
+            </p>
+            <h3>What those letters stands for?</h3>
+            <p>
+                Well, good question ;). As you can use every letter you want, in axioms and rewritting rules, some has special meanings in terms of turtle graphics in our application. Brief explanation in table:
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <th>Letter</th>
+                    <th>Meaning</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>F</td>
+                        <td>Draw line in selected direction, black color.</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>Draw line in selected direction, <span style="color: #00FF00">green</span> color.</td>
+                    </tr>
+                    <tr>
+                        <td>S</td>
+                        <td>Draw line in selected direction, <span style="color: #D2691E">brown</span> color.</td>
+                    </tr>
+                    <tr>
+                        <td>f</td>
+                        <td>Move forward in selected direction, no drawing.</td>
+                    </tr>
+                    <tr>
+                        <td>+</td>
+                        <td>Rotate clockwise by given angle.</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>Rotate counter clockwise by given angle.</td>
+                    </tr>
+                    <tr>
+                        <td>[</td>
+                        <td>Push current state to the stack.</td>
+                    </tr>
+                    <tr>
+                        <td>]</td>
+                        <td>Pop state from the stack.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                Therefore if you want to see something drawn on the canvas, you have to use some of above letters in your sentences. For example to draw equal-sided triangle, you have to set angle to the <code>60°</code>, axiom <code>F--F--F</code> and click <span class="btn-xs btn-primary">Set</span>. Try it! If you want to see it better, use <span class="btn-xs btn-info"><i class="fa fa-search-plus"></i></span> button.
+            </p>
+            <h3>Last, but not least.</h3>
+            <p>
+                Ok, where this app lives? Go to the <a href="http://l-system.nigol.cz">l-system.nigol.cz</a> and have fun. Also <a href="https://github.com/nigol/l-system">Github repository</a> is existing, feel free to clone, modify, whatever. And of course stay tuned for following article with more details about L-system and how it is implemented.
+            </p>
+            <p>
+                <br />
+                UPDATE: <a href="/l-system-ii.html">Second article</a> is available.
+            </p>
+        </article>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/template/template.js"></script>
+    </body>
+</html>
