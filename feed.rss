@@ -6,6 +6,14 @@
     <description>Martin Polák, blog, programming, Java, JavaScript, L-system, fractal, AWS.</description> 
     
     <item> 
+      <title>Java 8 – don’t be afraid of streams.</title> 
+      <link>http://blog.nigol.cz/java-8-dont-be-afraid-of-streams.html</link>
+      <guid>blog.nigol.cz/java-8-dont-be-afraid-of-streams.html</guid>
+      <description>Release of Java 8 in 2014 was really bigger leap forward. After versions 6 and 7 (let’s call ‘em evolutional) it brought again major changes to the language itself, including some paradigm shift in various areas. In this article, we’ll cover the Streams API topic and some basics of lambda expressions, as these two topics are slightly related.</description>
+      <pubDate>Tue, 23 Jan 2018 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
       <title>How to set up AWS CodeCommit with Codenvy IDE.</title> 
       <link>http://blog.nigol.cz/codenvy-aws-codecommit.html</link>
       <guid>blog.nigol.cz/article.html?codenvy-aws-codecommit</guid>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Java 8 – don’t be afraid of streams.</title>
+    </head>
+    <body>
+        <article>
+        	<h2>Java 8 – don’t be afraid of streams.<br><small>23.01.2018</small></h2>
+
+<p class="lead">Release of Java 8 in 2014 was really bigger leap forward. After versions 6 and 7 (let’s call ‘em evolutional) it brought again major changes to the language itself, including some paradigm shift in various areas. In this article, we’ll cover the Streams API topic and some basics of lambda expressions, as these two topics are slightly related.</p>
+
+
+
+<h3 id="what-is-stream-api">What is Stream API?</h4>
+
+<p>It is a new approach in Java, how we can work with collections of objects. It allows us to write collection handling in functional-like, more declarative style and resembles <a href="https://en.wikipedia.org/wiki/MapReduce">MapReduce</a> style. Declarative way of programming is usually more safe and error prone, then the imperative one. Also code is more readable (even if it looks not so from the start). </p>
+
+<p>In Java 8 every implementation of <code>Collection</code> interface implements method <code>stream()</code> and method <code>parallelStream()</code> (yes, you can get parallel processing for free - but wait). As a result, they provide you <code>Stream&lt;T&gt;</code> instance, which is a stream you can perform actions on. At the end, you make final result based on stream (be it another collection or object).</p>
+
+
+
+<h4 id="performing-operations-on-streams">Performing operations on streams</h4>
+
+<p>Basically, there are 2 kinds of operations (with <code>forEach()</code> method exception). First are operations, which takes stream as input, do something and return stream as output. Second are ones, which takes stream as input and aggregate or reduce it to the final object. </p>
+
+<p>In first category, we can use the following (not complete) list of operations:</p>
+
+<ul>
+<li><code>map()</code>, <code>mapToInt</code>, <code>mapTo{other types}</code>, … </li>
+<li><code>flatMap()</code></li>
+<li><code>filter()</code></li>
+</ul>
+
+<p>Second category contains mainly:</p>
+
+<ul>
+<li><code>reduce()</code></li>
+<li><code>collect()</code></li>
+<li>and many prepared terminal operations like <code>average()</code>, <code>sum()</code>, <code>min()</code>, <code>max()</code>, …</li>
+</ul>
+
+<p>And of course, there is also <code>forEach()</code> operation, which does not belongs to above categories. Let’s explain the operations in next section. But let’s start with lambda expressions.</p>
+
+
+
+<h3 id="details">Details</h3>
+
+
+
+<h4 id="lambda-expressions">Lambda expressions</h4>
+
+<p>We have to start explaining what lambda expressions are. The name lambda expressions comes from theoretical computational model of <a href="https://en.wikipedia.org/wiki/Lambda_calculus">Lambda calculus</a>. For our purposes, we can simply say, that lambda expression is an unnamed function. We can also store lambda expression in variable and pass it as an argument to method or other lambda expression. But due to the static typing in Java, it is not as straightforward as it is for example in JavaScript.</p>
+
+<p>Syntax for lambda expression is quite simple. </p>
+
+<pre class="prettyprint">    (arg1, arg2, ...) -&gt; {
+        ... //do something here
+        return ...;
+    }
+</pre>
+
+<p>In the first parentheses <code>(arg1, arg2, ...)</code> we declare parameters of the expression. It is similar like the parameters for method. Only difference is, that we don’t need to declare data type (instead of <code>String a</code> you type only <code>a</code>) as compiler is able to obtain data types from context.</p>
+
+<p>If our expression is only one statement (and often it is), we can write lambda expression in more simple form.</p>
+
+<pre class="prettyprint">    (arg1, arg2, ...) -&gt; ... //do something here
+</pre>
+
+<p>Result of evaluating such expression is the result of statement inside the lambda expression. No need for explicit <code>return</code> statement.</p>
+
+<p>And finally if our lambda expression takes only one argument, we can omit argument’s parentheses.</p>
+
+<pre class="prettyprint">    arg1 -&gt; ... //do something here
+</pre>
+
+<p>As said before, we can also store lambda expression in the variable and use it later. Because Java is static typed language, there must be some interface for that purpose. If our lambda expression takes one argument, there is <code>Function&lt;T, R&gt;</code> interface, where <code>T</code> is a type of argument and <code>R</code> is a type of result. For example lambda expression for computing square of integer can be stored to variable as:</p>
+
+<pre class="prettyprint">    Function&lt;Integer, Integer&gt; square = x -&gt; x * x;
+</pre>
+
+<p>For 2 arguments lambda expression, we can similarly use <code>BiFunction&lt;T, U, R&gt;</code> interface. <code>T</code> is type of first argument, <code>U</code> is type of second argument and <code>R</code> is type of result. Let’s see in code:</p>
+
+<pre class="prettyprint">    BiFunction&lt;Integer, Integer, Integer&gt; twoSum = (x, y) -&gt; x + y;
+</pre>
+
+<p>When lambda expression with more arguments is required to be stored, then we have to create our own interface. But it is only rare case. Remember, lambda expressions is not replacement of regular methods. It allows us to write small snippets of code and pass it as an argument.</p>
+
+<p>Now we should know basics of lambda expressions, so we can start with operations on streams.</p>
+
+
+
+<h4 id="common-rules">Common rules</h4>
+
+<p>There are some rules for lambda expressions, which we have to follow to get our code manageable or even compilable.</p>
+
+<p>First, every lambda expression creates it’s own <a href="https://en.wikipedia.org/wiki/Scope_%28computer_science%29#Lexical_scoping">lexical scope</a>. Variables from outer scope, used in lambda expression, must be final or effective final (behaves like final, even not explicitly declared as final). For example</p>
+
+<pre class="prettyprint">    int a = 0;
+    BiFunction&lt;Integer, Integer, Integer&gt; sum = (x, y) -&gt; x + y + a;
+</pre>
+
+<p>is ok, because <code>a</code> variable is effective final. We can also declare it like <code>final int a = 0;</code>. In contrast </p>
+
+<pre class="prettyprint">    int a = 0;
+    a = 1;
+    BiFunction&lt;Integer, Integer, Integer&gt; sum = (x, y) -&gt; x + y + a;
+</pre>
+
+<p>will not compile, because <code>a</code> is neither final nor effective final. </p>
+
+<p>Second, although it is perfectly possible to use another lambda inside current lambda like</p>
+
+<pre class="prettyprint">    ...
+    .stream()
+        .forEach(o -&gt; o.getParts().stream()
+            .forEach(p -&gt; ...));
+</pre>
+
+<p>I strongly recommend to split the functionality into additional method like</p>
+
+<pre class="prettyprint">    ...
+    .stream()
+        .forEach(o -&gt; doSomethingWith(o));
+
+    void doSomethingWith(Object o) {
+        o.getParts().stream()
+            .forEach(...);
+    }
+</pre>
+
+<p>It is more expressive and we can see for the first sight what is going on compared to the first example, which can be easily misinterpreted (imagine even more deeply chained operations).</p>
+
+<p>Third, there is some kind of shortcut, which can replace some lambdas. If we use example from previous rule</p>
+
+<pre class="prettyprint">    ...
+    .stream()
+        .forEach(o -&gt; doSomethingWith(o));
+
+    void doSomethingWith(Object o) {
+        o.getParts().stream()
+            .forEach(...);
+    }
+</pre>
+
+<p>lambda <code>o -&gt; doSomethingWith(o)</code> can be rewritten with <code>::</code> operator, which is a reference of method from some particular class. Let’s see the usage</p>
+
+<pre class="prettyprint">    ...
+    .stream()
+        .forEach(this::doSomethingWith);
+
+    void doSomethingWith(Object o) {
+        o.getParts().stream()
+            .forEach(...);
+    }
+</pre>
+
+<p>Of course, we can use <code>::</code> on different class, for example <code>List::stream</code>.</p>
+
+
+
+<h4 id="mappers-and-filters">Mappers and filters</h4>
+
+<p>For this category of operations is typical, that they perform operation on stream and returns again stream as result. In context of MapReduce, these operations are the Map part. Another important fact is, that all these operations are <strong>lazy</strong> evaluated. That means, that all operations will run in one step just after some finalizer (be it collector or reducer) is evaluated. we can stack mappers or filters without affecting the performance</p>
+
+<p></p><pre class="prettyprint"> <br>
+     collection.stream() <br>
+        .filter(...) <br>
+        .map(...) <br>
+        .flatMap(...) <br>
+        .collect(...) <br>
+ </pre><p></p>
+
+<p>and it will use only one step for every element (even if we are tempted to say, that 3 steps would be used for every element). It is really important to understand this concept as it leads to more manageable code. we definitely have not to try to manage everything in one <code>.map()</code> as we would do with <code>for</code> cycle.</p>
+
+
+
+<h5 id="map">map()</h5>
+
+<p>The name of <code>map()</code> operation giving us some hint of what the operation supposed to be doing. It takes lambda expression and apply that expression on every element of stream. Lambda expression takes one argument (which is one element of the stream) and perform actions on it. Expression evaluation returns another object, which is treated as result of particular operation. Result of the whole map operation is a stream consisting of objects, which are results of every particular lambda expression evaluation.</p>
+
+<p>For example, let’s have stream <code>integers</code> consisting of <code>[1, 2, 3]</code> numbers. Now we perform following mapping:</p>
+
+<pre class="prettyprint">    integers.map(x -&gt; x * 2);
+</pre>
+
+<p>As a result, we obtain stream containing <code>[2, 4, 6]</code>. So we simply doubled all the numbers in original stream. Let’s go throughout the whole process step by step. </p>
+
+<ol>
+<li>We start with empty result stream <code>[]</code> and with first item in source <code>[(1), 2, 3]</code>. <code>x -&gt; x * 2</code> become <code>1 * 2</code> and result <code>2</code> is stored in result stream.</li>
+<li>Result stream is like <code>[2]</code>, process second item from source <code>[1, (2), 3]</code>. <code>x -&gt; x * 2</code> =&gt; <code>2 * 2</code> =&gt; <code>4</code> is stored in result stream.</li>
+<li>Result stream is like <code>[2, 4]</code>, process third item from source <code>[1, 2, (3)]</code>. <code>x -&gt; x * 2</code> =&gt; <code>3 * 2</code> =&gt; <code>6</code> is stored in result stream.</li>
+<li>Final result stream is <code>[2, 4, 6]</code>.</li>
+</ol>
+
+<p>Important fact is, that result of map is <strong>stream</strong>. Therefore you can process that stream with another mapping of filtrating as we want.</p>
+
+
+
+<h5 id="flatmap">flatMap()</h5>
+
+<p>In some cases, we are processing data containing other collections of data. Imagine, we have factories and in every factory we have employees. Now we want to do something with all employees. Suppose, that every <code>Factory</code> instance have <code>getEmployees()</code> method, which returns <code>Collection</code> of employees belonging to the factory. </p>
+
+<p><em>In the next text, I will use following mnemonic: <code>[]</code> will be used for stream and <code>()</code> will be used for collection.</em></p>
+
+<p>We start with collection <code>factories</code>, which is consisting of <code>(fac1, fac2, fac3)</code>.</p>
+
+<pre class="prettyprint">    factories.stream()
+        .map(Factory::getEmployees)
+</pre>
+
+<p>Code above leads to the following stream <code>[(e1, e2, e3), (e4), (e5, e6)]</code>. As you can see, we already have all employees in the stream, but there is one layer of indirection. Instead of simple stream of employees, we obtained stream of collections of employees. We need to ‘flatten’ it and this is why <code>flatMap()</code> is available. Main principle is similar to <code>map()</code> - it maps given lambda expression to every element of stream. That’s common for both functions. But for contrast output of the lambda expression for <code>flatMap()</code> must be a stream. And second, output of the lambda expression is not simply appended to the resulting stream. It takes intermediate result stream and join it with actual result of the lambda expression. Enough talking, go for code:</p>
+
+<pre class="prettyprint">    factories.stream()
+        .map(Factory::getEmployees)
+        .flatMap(Collection::stream)
+</pre>
+
+<p>Now the result would look like we want to - <code>[e1, e2, e3, e4, e5, e6]</code>. First map creates <code>[(e1, e2, e3), (e4), (e5, e6)]</code>, so we have stream of 3 collections. Then we apply on every collection <code>Collection::stream</code> and join resulting streams together.</p>
+
+
+
+<h5 id="filter">filter()</h5>
+
+<p>Filtering is useful concept, when we want to get rid of some elements from collection. It requires lambda expression, which for given object returns either true or false. When true is returned, object will stay in final stream, when false, object will be thrown away.</p>
+
+<p>Let’s say, we want to filter out odd numbers from <code>[3, 4, 5, 6, 7]</code> stream.</p>
+
+<pre class="prettyprint">    .filter(x -&gt; x % 2 == 0)
+</pre>
+
+<p>And we’ll get result stream <code>[4, 6]</code>. It can be of course used for example to filter out <code>null</code> values, which is pretty useful in various situations. It is even so useful, that it is already implemented in <code>Objects::nonNull</code>. Let’s show this later in real world examples.</p>
+
+
+
+<h4 id="aggregators-or-reducers-and-collectors-finalizer">Aggregators or reducers and collectors (finalizer)</h4>
+
+<p>These operations takes stream as input and produce aggregation or reduction on it. For example operation <code>sum()</code> can take stream of integers and as result there will be sum of all integers in that list. In context of MapReduce, these operations are the Reduce part. We can call them finalizers too, as these methods finalizes the work with stream and return result. </p>
+
+
+
+<h5 id="collect">collect()</h5>
+
+<p>Usually we need to get data after processing in some better suiting format than stream. Streams are only one time usable and immutable. Also we can process data during the collecting. That’s why there is a <code>collect()</code> function. There is a lot of predefined <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html">collectors</a>, which covers most of the needs, that normal developer wants to use. For example if we want to simply get <code>List</code> out of the stream, we use:</p>
+
+<pre class="prettyprint">    ... .stream()
+    .collect(Collectors.toList());
+</pre>
+
+<p>To obtain set, use: </p>
+
+<pre class="prettyprint">    ... .stream()
+    .collect(Collectors.toSet());
+</pre>
+
+<p>And so on.</p>
+
+<p>There is also possibility to implement own custom collector. We have to implement <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html">Collector</a></p>
+
+<h5 id="reduce">reduce()</h5>
+
+<p>Reduce operation is useful especially when you want to get one value (non collection) out of the stream. Imagine, you want to sum all values of <code>Integer</code> stream. Perfect situation for reduce operation. We would illustrate process of reduction on summing up stream of integers.  </p>
+
+<p><em>In the next explanation, I will use following mnemonic: <code>[]</code> will be used for stream and <code>()</code> will be used for accumulated value (accumulator).</em></p>
+
+<p>We would sum integers stream up. First, we identify neutral element in context of operation. For <code>+</code> operation, it is <code>0</code> as <code>0 + x = x</code>. This neutral element will serve as starter value.</p>
+
+<ol>
+<li>Set starter value to accumulator <code>() &lt;- 0</code>. </li>
+<li>Apply operation <code>+</code> on every element of list and accumulator, store result in accumulator <code>() &lt;-+ x</code>.</li>
+<li>Result is in accumulator and it is returned as return value of the whole operation.</li>
+</ol>
+
+<p>For <code>[1, 2, 3]</code> it looks like this</p>
+
+<pre>    ()  &lt;-  0
+    (0) &lt;-+ 1
+    (1) &lt;-+ 2
+    (3) &lt;-+ 3
+    return (6)
+</pre>
+
+<p>Back to Java. Calling of <code>.collect(&lt;starter&gt;, (&lt;accumulator&gt;, &lt;value&gt;) -&gt; ...)</code> has following parameters: <code>&lt;starter&gt;</code> is a neutral element in context of operation as we described above and as second parameter we provide lambda expression with 2 arguments - <code>&lt;accumulator&gt;</code> contains current accumulated value and <code>&lt;value&gt;</code> contains current value from stream. For our summing example, we would write</p>
+
+<pre class="prettyprint">    ... .stream()
+    .reduce(0, (acc, x) -&gt; acc + x);
+</pre>
+
+<p>We can use same functionality for example for concatenating strings or for other operations (with different arguments, of course), which stacks multiple values into one.</p>
+
+
+
+<h5 id="average-sum-min-max">average(), sum(), min(), max(), …</h5>
+
+<p>Those functions are some shorthands for pre-prepared reducers and the functionality is the same as described just above. We can use it instead of implementing own reducers. </p>
+
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#average--">average</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#sum--">sum</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#min--">min</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#max--">max</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#count--">count</a></li>
+</ul>
+
+<p>We have to be aware of that with <code>count()</code> exception, all those functions are implemented on <code>IntStream</code>, so you have to convert general stream to <code>IntStream</code> like this:</p>
+
+<pre class="prettyprint">    List&lt;Integer&gt; nums = Arrays.asList(1, 2, 3);
+    int sum = nums.stream()
+            .mapToInt(i -&gt; i)
+            .sum();
+</pre>
+
+<p>Lambda expression in <code>mapToInt()</code> is used to extract integer value out of general stream’s objects. In our case, we are only doing identify operation, because our original stream already contains integer values. </p>
+
+
+
+<h4 id="foreach">forEach()</h4>
+
+<p><code>forEach()</code> does not fit to any category above. Mapping and reducing always return some value as a result and (ideally) does not rely on side effects. <code>forEach()</code> in opposite rely only on side effects and it does not return anything as result. It resembles traditional for cycle. We should always try to use map and collect / reduce where possible and use <code>forEach()</code> only when needed. Because of those side effects, it has worse testability and it can cause for example race condition when running on parallel stream. </p>
+
+<p>In our example, we want to print out all numbers from the stream. It is perfectly ok for using <code>forEach()</code> as we are using side effect (printing) anyway.</p>
+
+<pre class="prettyprint">    numbers.stream()
+               .forEach(System.out::println);
+</pre>
+
+<p>That’s straightforward. Classical for loop rewritten for streams.</p>
+
+
+
+<h4 id="parallelism">Parallelism</h4>
+
+<p>As we said before, streams also introduces easy way, how we can process data in parallel. It is getting more important as modern processors always consists of more than one core. Before Java 8, we were also able to do parallel processing in Java. But we have to take care about threads manually, leading to hard manageable code and potentially buggy. We have also manage by ourselves prevention against race conditions, deadlocks and so on.</p>
+
+<p>What we need to make our stream code run in parallel? Almost nothing. Just use <code>parallelStream()</code> instead of <code>stream()</code> call on the collection. Or use <code>stream().parallel()</code> call. It is easy, isn’t it? But it is not only all bells and whistles. We have to be aware of following:</p>
+
+<ol>
+<li>If our code rely on order of elements, we can’t use parallel stream. That’s logical, because elements are processed simultaneously, no one would guarantee order of processing.</li>
+<li>If our code rely on side effects (especially <code>forEach()</code>), it can lead to unpredictable behavior. Imagine for example putting more objects with same key into map simultaneously.</li>
+<li>JVM by default preparing and managing thread pool in behind, which is used for parallel stream processing. Basically number of threads corresponds to the number of cores available in system. That’s fine in single user application. But when we are working in multi user environment (like web application), we are in trap. For example 10 users want to start operation, which is using parallel stream. First user start operation and take all available threads (remember, thread pool for streams is JVM scoped, not application nor session scoped). All remaining 9 users have to wait, until at least one thread is not free. That’s a pretty annoying bottleneck.</li>
+</ol>
+
+<p>There is workaround for point 3. We can define custom thread pool for some particular stream processing if it is necessary.</p>
+
+<pre class="prettyprint">    ForkJoinPool threadPool = new ForkJoinPool(&lt;number_of_threads&gt;);
+    int sum = threadPool.submit(&lt;lambda_to_evaluate&gt;).get();
+</pre>
+
+<p><code>&lt;number_of_threads&gt;</code> defines how many of threads should be used for execution and <code>&lt;lambda_to_evaluate&gt;</code> is expression, which would be evaluated in context of defined thread pool. Actual code for parallel sum of integers (stored in <code>numbers</code> collection) using 2 threads could look like:</p>
+
+<pre class="prettyprint">    ForkJoinPool threadPool = new ForkJoinPool(2);
+    int sum = threadPool.submit(
+            () -&gt; numbers.parallelStream()
+                .reduce(0, (acc, x) -&gt; acc + x)).get();
+</pre>
+
+<p>Anyway, I would recommend to use parallel streams in multi user environment only when we have good reason to do it. We need to consider more scenarios compared to standard, serial streams.</p>
+
+
+
+<h3 id="real-world-examples">Real world examples</h3>
+
+<p>It is time to show, how to rewrite some ‘old’ code into the ‘new’ one. For every case, there will be 2 examples - one with traditional for loop and one with streams. </p>
+
+<ul>
+<li>We have <code>ArrayList&lt;Integer&gt; numbers</code> and want to get sum of all elements. Get rid of null values:</li>
+</ul>
+
+<pre class="prettyprint">    Integer sum = 0;
+    for (Integer value : numbers) {
+        if (value != null) {
+            sum = sum + value;
+        }
+    }
+</pre>
+
+<pre class="prettyprint">    Integer sum = numbers.stream()
+            .filter(Objects::nonNull)
+            .reduce(0, (acc, v) -&gt; acc + v);
+</pre>
+
+<ul>
+<li>We have <code>ArrayList&lt;String&gt; words</code> and want to compose final <code>String</code> with space as separator (I know, concatenation of strings with <code>+</code> is not optimal, but it’s example). Get rid of null values:</li>
+</ul>
+
+<pre class="prettyprint">    String wordList = "";
+    for (String word : words) {
+        if (word != null) {
+            wordList = wordList + word + " ";
+        }
+    }
+</pre>
+
+<pre class="prettyprint">    String wordList = words.stream()
+            .filter(Objects::nonNull)
+            .reduce("", (acc, w) -&gt; acc + w + " ");
+</pre>
+
+<ul>
+<li>We have <code>Category</code> with method <code>getCategory()</code> returning <code>String</code>. We want to put categories from <code>ArrayList&lt;Category&gt; categories</code> into <code>Map&lt;String, Category&gt;</code>. If there are more elements with same string for <code>getCategory()</code>, keep the first one. Get rid of null values:</li>
+</ul>
+
+<pre class="prettyprint">    Map&lt;String, Category&gt; categoryMap = new HashMap&lt;&gt;();
+    for (Category cat : categories) {
+        if (cat != null) {
+            categoryMap.putIfAbsent(cat.getCategory(), cat);
+        }
+    }
+</pre>
+
+<pre class="prettyprint">    Map&lt;String, Category&gt; categoryMap = categories.stream()
+            .filter(Objects::nonNull)
+            .collect(Collectors.toMap(Category::getCategory, Function.identity(), 
+                (c1, c2) -&gt; c1));
+</pre>
+
+<ul>
+<li>We have <code>Category</code> with method <code>getCategory()</code> returning <code>String</code>. We want to group categories from <code>ArrayList&lt;Category&gt; categories</code> with the same <code>getCategory()</code> into <code>Map&lt;String, List&lt;Category&gt;&gt;</code>. Get rid of null values:</li>
+</ul>
+
+<pre class="prettyprint">    Map&lt;String, List&lt;Category&gt;&gt; categoryMap = new HashMap&lt;&gt;();
+    for (Category cat : categories) {
+        if (cat != null) {
+            List&lt;Category&gt; catList = categoryMap.get(cat.getCategory());
+            if (catList == null) {
+                catList = new ArrayList&lt;&gt;();
+            }
+            catList.add(cat);
+            categoryMap.put(cat.getCategory(), catList);
+        }
+    }
+</pre>
+
+<pre class="prettyprint">    Map&lt;String, List&lt;Category&gt;&gt; categoryMap = categories.stream()
+            .filter(Objects::nonNull)
+            .collect(Collectors.groupingBy(Category::getCategory));
+</pre> 
+
+<p>As we can see, the code with streams is more declarative, therefore it can be considered safer. It’s harder to make an error and that’s the main benefit.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>As Stream API is quite established in Java nowadays, it makes sense to use it regularly. It can bring more readability, safety and better expressiveness into our code. In some case, we can also take advantages of parallel code execution without explicitly dealing directly with threads. Parallel processing will be probably more and more important in the future.   </p>
+        </article>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/template/template.js"></script>
+    </body>
+</html>
