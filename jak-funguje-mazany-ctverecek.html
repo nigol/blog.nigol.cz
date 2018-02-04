@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Jak funguje Mazaný Čtvereček.</title>
+    </head>
+    <body>
+        <article>
+        	<h2>Jak funguje Mazaný Čtvereček.<br><small>04.02.2018</small></h2>
+
+            <p class="lead">
+                O víkendu mezi prvním a druhým kolem nedávné volby prezidenta jsem si jen tak ze zvědavosti četl pár příspěvků na Twitter účtu <a href="https://twitter.com/prezidentmluvci">@PREZIDENTmluvci</a>. Je to vskutku výživný materiál a tak jsem si řekl, že by stálo za to jej nějak &bdquo;vytěžit&ldquo;.
+            </p>
+            
+            <p>
+                Nejprve tedy vysvětlím, co vlastně <a href="http://c.nigol.cz">Mazaný Čtvereček</a> je. Jedná se jednoduchou hříčku, která generuje příspěvky na Twitter s použítím výraziva výše zmíněného mluvčího prezidenta. Věty jsou gramaticky správně, ale často nedávají významový smysl (a tím jsou také někdy zábavné).
+            </p>
+            
+            <p>
+                Jádrem generování vět je mechanismus, který se nazývá <a href="https://cs.wikipedia.org/wiki/Markovův_řetězec">Markovův řetězec</a>. Zjednodušeně řečeno Markovův řetězec popisuje proces, kde možnost přechodu z jednoho stavu do druhého je dána pouze aktuálním stavem systému a pravděpodobností přechodu. Na následujícím (neumělém) schématu je vidět situace, kdy se nacházíme ve stavu <strong>A</strong> a máme stejnou pravděpodobnost přechodu do stavu <strong>B</strong> nebo <strong>C</strong>.
+            </p>
+            
+            <pre>
+                  1/2
+             -> A --- B
+                  \
+               1/2 \
+                    C
+            </pre>
+            <p style="text-align: center">
+                <em>Pravděpodobnost přechodu z A do B (50%) nebo C (50%)</em>
+            </p>
+            
+            <p>
+                Naopak pokud budeme mít následující situaci
+            </p>
+            
+            <pre>
+                   0
+             -> A --- B
+                  \
+               1   \
+                    C
+            </pre>
+            <p style="text-align: center">
+                <em>Pravděpodobnost přechodu z A do B (0%) nebo C (100%)</em>
+            </p>
+                        
+            <p>
+                ze stavu <strong>A</strong> se <em>vždy</em> dostaneme do stavu <strong>C</strong> a <em>nikdy</em> do stavu <strong>B</strong>.
+            </p>
+            
+            <p>
+                Tolik tedy k základní teorii, pojďme se podívat, jak je to použito v praxi. Vzhledem k tomu, že se jedná o webovou stránku, vše jsem implementoval v Javascriptu. Pro reprezentaci řetězu jsem použil JS objekt, kde jednotlivé stavy jsou klíče a pravděpodobnosti přechodu do dalších stavů jsou uloženy jako pole. Ukažme si to na příkladu, kde je pravděpodobnost přechodu z A do B (50%) nebo C (50%):
+            </p>
+            
+            <pre class="prettyprint">
+                {
+                    "A": ["B", "C"]
+                }
+            </pre>
+                        
+            <p>
+                Pokud bychom chtěli dosáhnout pravděpodobnosti přechodu z A do B (66%) nebo C (33%), definovali bychom:
+            </p>
+            
+            <pre class="prettyprint">
+                {
+                    "A": ["B", "B", "C"]
+                }
+            </pre>
+            
+            <p>
+                Snad je tedy základní myšlenka zřejmá. Nyní, pokud vezmeme za stavy jednotlivá slova, můžeme definovat například následující řetěz:
+            </p>
+            
+            <pre class="prettyprint">
+                {
+                    "START": ["Mám", "Máme"],
+                    "Mám": ["doma", "venku"],
+                    "Máme": ["venku"],
+                    "doma": ["televizi", "rádio", "počítač"],
+                    "venku": ["popelnici", "auto"]
+                }
+            </pre>
+                        
+            <p>
+                a z něj pak snadno <button class="btn-xs btn-default" onclick="document.getElementById('sentence').innerText = generateSentence(words)">Generovat</button> : <span id="sentence" style="font-weight: bold"></span>
+            </p>
+            
+            <script>
+                var words = {
+                    "START": ["Mám", "Máme"],
+                    "Mám": ["doma", "venku"],
+                    "Máme": ["venku"],
+                    "doma": ["televizi", "rádio", "počítač"],
+                    "venku": ["popelnici", "auto"]
+                };
+                
+                function generateSentence(wordChain) {
+                    var sentence = "";
+                    var word = "START";
+                    var finish = false;
+                    while (!finish) {
+                        var words = wordChain[word];
+                        if (words === undefined || words.length === 0) {
+                            finish = true;
+                        } else {
+                            word = words[Math.floor(Math.random() * words.length)];
+                            sentence = sentence + " " + word;
+                        }
+                    }
+                    return sentence.charAt(1).toUpperCase() + sentence.slice(2) + ".";
+                }
+                document.getElementById('sentence').innerText = generateSentence(words);
+            </script>
+            
+            <p>
+                No a to je vlastně všechno. Nejvíc času zabralo sestavení dostatečně velkého řetězu slov, na což jsem použil CSV soubor se staženými twíty, které bylo potřeba vyčistit a připravit. Poté jsem si napsal krátkou utilitu opět v JS, která data zpracuje a podle četnosti výskytu slov sestaví výsledný řetěz. A ten už pak slouží na stránce se <a href="http://c.nigol.cz">Čtverečkem</a>. Všechny zdrojové kódy jsem dal na <a href="https://github.com/nigol/ctverecek">Github</a>, pokud máte zájem, použijte dle libosti :).
+            </p>
+            
+        </article>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/template/template.js"></script>
+    </body>
+</html>
