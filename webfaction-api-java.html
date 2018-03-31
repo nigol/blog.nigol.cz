@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Accessing WebFaction's API with Java.</title>
+    </head>
+    <body>
+        <article>
+        	<h2>Accessing WebFaction's API with Java.<br><small>31.03.2018</small></h2>
+
+            <p class="lead">
+                <a href="https://www.webfaction.com/?aid=6442">WebFaction</a> (yes, it is an affiliate link) is a pretty neat and realiable hosting provider &#8211; they call 'Hosting for developers' themselves. I am stuck almost 10 years with them and never had to complain. They're also providing <a href="https://docs.webfaction.com/xmlrpc-api/">API</a> and that's what we'll talk today.
+            </p>
+            
+            <p>
+                My motivation is clear &#8211; I am hosting some of the Java applications deployed on <a href="http://tomee.apache.org">Tomee</a> application server and just recently I had to implement simple control panel for administrating e-mail addresses and mailboxes. Fortunatelly, there is an API for that purpose available on WebFaction. As I said, my applications are in Java, so it make sense to implement administration in Java too. 
+            </p>
+
+            <h3>Prerequisities.</h3>
+            
+            <p>
+                Of course, you'll have to have WebFaction account :). And I suppose you know name and password for your account. Then you need to know capitalized name of server. For example, if your server is 'web585.webfaction.com', capitalized name would be 'Web585'. You can get server address in <a href="https://my.webfaction.com">WebFaction Control Panel</a>.
+            </p>
+            
+            <p>
+                I am using Maven for maintaining my projects and their dependencies. If you are using different tooling (like Gradle), you have to adapt the configuration (shouldn't be hard) or manually copy necessary libraries into CLASSPATH. Webfaction API is using <a href="https://en.wikipedia.org/wiki/XML-RPC">XML-RPC</a> protocol for communication, therefore we'll add dependecies into <code>pom.xml</code> file:
+            </p>            
+            
+<pre class="prettyprint">
+    &#x3C;dependency&#x3E;
+        &#x3C;groupId&#x3E;org.apache.xmlrpc&#x3C;/groupId&#x3E;
+        &#x3C;artifactId&#x3E;xmlrpc-client&#x3C;/artifactId&#x3E;
+        &#x3C;version&#x3E;3.1.3&#x3C;/version&#x3E;
+    &#x3C;/dependency&#x3E;
+    &#x3C;dependency&#x3E;
+        &#x3C;groupId&#x3E;org.apache.xmlrpc&#x3C;/groupId&#x3E;
+        &#x3C;artifactId&#x3E;xmlrpc-common&#x3C;/artifactId&#x3E;
+        &#x3C;version&#x3E;3.1.3&#x3C;/version&#x3E;
+    &#x3C;/dependency&#x3E;
+</pre>
+
+            <p>
+                Now we have necessary library support. For those not using automatic dependency system (like Maven), libraries can be obtained at <a href="https://ws.apache.org/xmlrpc/download.html">Downloading Apache XML-RPC</a>.
+            </p>
+            
+            <h3>Start of communication, authentication.</h3>
+            
+            <p>
+                Before we can call API request, we need to get authenticated and get <em>session ID</em>. You can refer to <a href="https://docs.webfaction.com/xmlrpc-api/tutorial.html#logging-in">Logging in</a> section of original documentation for more details. Simply said, we need <em>session ID</em> for any call to the API (with <code>login</code> exception)
+            </p>
+            
+            <p>
+                First we'll prepare method for getting <code>XmlRpcClient</code> instance, which is needed for all API calls:
+            </p>
+            
+<pre class="prettyprint">
+    private XmlRpcClient getXmlRpcClient() throws MalformedURLException {
+        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+        config.setServerURL(new URL(&#x22;https://api.webfaction.com/&#x22;));
+        XmlRpcClient client = new XmlRpcClient();
+        client.setConfig(config);
+        return client;
+    }
+</pre>
+            
+            <p>
+                For getting <em>session ID</em>, we'll create following method:
+            </p>
+            
+<pre class="prettyprint">
+    public String getSessionId(String userName, String password, String capitalizedServer) {
+        try {
+            XmlRpcClient client = getXmlRpcClient();
+            Object[] params = new Object[]{userName, password, capitalizedServer};
+            Object[] result = (Object[]) client.execute("login", params);
+            return (String) result[0];
+        } catch (MalformedURLException | XmlRpcException e) {
+            // handle exception here
+        }
+    }
+</pre>
+
+            <p>
+                We are creating array of parameters <code>Object[] params</code> for the call and as a result we got another array. At index <code>0</code>, there is <em>session ID</em> we are interested in. 
+            </p>
+            
+            <h3>Calling API.</h3>
+            
+            <p>
+                As far as we are authenticated, we can make any API call. Let's take for example <a href="https://docs.webfaction.com/xmlrpc-api/apiref.html#mailboxes">changing mailbox password</a>:
+            </p>
+            
+<pre class="prettyprint">
+    public void changePassword(String sessionId, String mailbox, String password) {
+        try {
+            XmlRpcClient client = getXmlRpcClient();
+            Object[] params = new Object[]{sessionId, mailbox, password};
+            client.execute("change_mailbox_password", params);
+        } catch (MalformedURLException | XmlRpcException e) {
+            // handle exception here
+        }
+    }
+</pre>
+
+            <p>
+                In my opinion, thing is pretty straightforward. Similarly, you can call any API function. Common procedure is like:
+                <ol>
+                    <li>Get <code>XmlRpcClient</code> instance.</li>
+                    <li>Prepare <code>Object[] params</code> parameters (with <em>session ID</em> mandatory).</li>
+                    <li>Execute call.</li>
+                    <li>Handle result (if any).</li>
+                </ol>
+            </p>
+            
+            <p>
+                Well, that's it. I hope, I made someone happy :). If you have any problem regarding topic, feel free to contact me &#8211; I'll try to help.
+            </p>
+            
+        </article>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/template/template.js"></script>
+    </body>
+</html>
