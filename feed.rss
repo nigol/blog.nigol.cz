@@ -6,6 +6,17 @@
     <description>Martin Polák, blog, programming, Java, JavaScript, L-system, fractal, AWS.</description> 
     
     <item> 
+      <title>Příprava na geecon 2018.</title> 
+      <link>http://blog.nigol.cz/priprava-na-geecon-2018.html</link>
+      <guid>blog.nigol.cz/priprava-na-geecon-2018.html</guid>
+      <description>
+          Vstupenky objednány, hotel zabookován. Je tu opět geecon, konference pro (především) Java vývojáře. Jedeme, jako obvykle, s několika kolegy z práce a jak je už u mě tradičně zvykem, naplánoval jsem si zajímavé přednášky. S návštěvy geeconu se už pro mě pomalu stává tradice &#8211; 3. rok v řadě, ale myslím, že po letošním ročníku budu mít pauzu. Přece jen se nyní budu zabývat v práci i jinými věcmi, než pouze každodenním vývojem aplikací. I když vývoj aplikací také nevzdávám a budu se jím (i třeba ve volném čase) zabývat nadále.
+      </description>
+      <pubDate>Mon, 15 Oct 2018 00:00:00 GMT</pubDate> 
+    </item>
+
+    
+    <item> 
       <title>Accessing WebFaction's API with Java.</title> 
       <link>http://blog.nigol.cz/webfaction-api-java.html</link>
       <guid>blog.nigol.cz/webfaction-api-java.html</guid>
@@ -118,5 +129,3 @@
     
   </channel> 
 </rss>
-
-
