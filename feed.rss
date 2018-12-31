@@ -6,6 +6,16 @@
     <description>Martin Polák, blog, programming, Java, JavaScript, L-system, fractal, AWS.</description> 
     
     <item> 
+      <title>Prezentace v HTML.</title> 
+      <link>http://blog.nigol.cz/prezentace-v-html.html</link>
+      <guid>blog.nigol.cz/prezentace-v-html.html</guid>
+      <description>
+          Není to tak dávno, co jsem v práci navrhnul pravidelně nepravidelné páteční workshopy na různá (především technická) témata. Protože jsem byl iniciátorem, bylo logické, že jsem i začal s prvním tématem. Zbývalo vyřešit poslední problém &#8211; jak připravit prezentace? Jedna možnost (Powerpoint) se sama nabízela, ale nebyl bych to já, kdybych nenašel něco trochu více netradičního.
+      </description>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 GMT</pubDate> 
+    </item>
+    
+    <item> 
       <title>Příprava na geecon 2018.</title> 
       <link>http://blog.nigol.cz/priprava-na-geecon-2018.html</link>
       <guid>blog.nigol.cz/priprava-na-geecon-2018.html</guid>
@@ -14,7 +24,6 @@
       </description>
       <pubDate>Mon, 15 Oct 2018 00:00:00 GMT</pubDate> 
     </item>
-
     
     <item> 
       <title>Accessing WebFaction's API with Java.</title> 

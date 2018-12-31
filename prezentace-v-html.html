@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Prezentace v HTML.</title>
+  </head>
+  <body>
+    <article>
+      <h2>Prezentace v HTML.<br><small>31.12.2018</small></h2>
+
+      <p class="lead">
+        Není to tak dávno, co jsem v práci navrhnul pravidelně nepravidelné páteční workshopy na různá (především technická) témata. Protože jsem byl iniciátorem, bylo logické, že jsem i začal s prvním tématem. Zbývalo vyřešit poslední problém &#8211; jak připravit prezentace? Jedna možnost (Powerpoint) se sama nabízela, ale nebyl bych to já, kdybych nenašel něco trochu více netradičního.
+      </p>
+      
+      <p>
+          Po chvilce hledání a zkoušení, kdy jsem zvažoval například export z <a href="https://orgmode.org">Org mode</a>, který jsem zavrhnul &#8211; musel bych se nejdřív naučit pracovat s Org mode, což výhledově plánuji, ale momentálně jsem na to neměl čas. Proto jsem potřeboval něco, co bych mohl začít používat okamžitě. Času totiž už moc nezbývalo. Pak mě napadlo, že bych vlastně mohl prezentace psát pomocí HTML, které znám a vzhled doladit pomocí CSS stylů. To už znělo rozumně, ale přece jen jsem se podíval, jestli už někdo něco podobného neřešil v minulosti. Řešil, samozřejmě. Tak jsem narazil na <a href="https://revealjs.com">reveal.js</a>
+      </p>
+      
+      <p>
+          Reveal.js je framework pro tvorbu prezentací v HTML. Řeší věci jako přechod tam i zpět mezi slidy, grafická témata, export do PDF, dokonce i okno pro prezentujícího s počítáním času a další věci. Navíc psaní jednotlivých slidů je velice jednoduché &#8211; prostě píšete klasické HTML a dodržujete jednoduchou strukturu, aby framework uměl rozlišit jednotlivé slidy. Kód může vypadat například takto:
+      </p>
+      
+      <pre class="prettyprint">
+          &#x3C;section&#x3E;
+        &#x9;  &#x3C;h1&#x3E;Java EE&#x3C;/h1&#x3E;
+        &#x9;  &#x3C;h3&#x3E;Za&#x10D; je toho loket&#x3C;/h3&#x3E;
+        &#x9;  &#x3C;p style=&#x22;font-size: small&#x22;&#x3E;
+        &#x9;    Martin Pol&#xE1;k
+        &#x9;  &#x3C;/p&#x3E;
+        &#x9;  &#x3C;p&#x3E;
+        &#x9;    &#x3C;a href=&#x22;https://github.com/nigol/slides&#x22;&#x3E;github.com/nigol/slides&#x3C;/a&#x3E;
+        &#x9;  &#x3C;/p&#x3E;
+        &#x9;  &#x3C;p&#x3E;
+        &#x9;    &#x3C;a href=&#x22;http://slides.nigol.cz&#x22;&#x3E;slides.nigol.cz&#x3C;/a&#x3E;
+        &#x9;  &#x3C;/p&#x3E;
+          &#x3C;/section&#x3E;        
+      </pre>
+      
+      <p>
+          Výhody jsou nasnadě &#8211; můžete použít prakticky vše z HTML, včetně třeba videa a dalších věcí. Ideální. Navíc lze prezentace snadno sdílet na webu. A to mě přivádí k tomu, že sám budu svoje prezentace sdílet. Můžete je jednak najít na <a href="https://github.com/nigol/slides">Githubu</a> a pak taky plně zprovozněné na <a href="http://slides.nigol.cz">slides.nigol.cz</a>. Je pravda, že většinou bez mluveného kontextu asi nebudou tak moc užitečné, ale kdo ví.
+      </p>
+
+    </article>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="/template/template.js"></script>
+  </body>
+</html>
