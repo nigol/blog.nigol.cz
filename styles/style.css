@@ -1,6 +1,14 @@
 body {
     margin-bottom: 60px;
     background-color: #F5FFFA;
+    opacity: 0.0;
+    transition: opacity 0.5s ease;
+}
+
+article {
+    opacity: 0;
+    color: white;
+    background: white;
 }
 
 .article-banner {
@@ -22,15 +30,6 @@ h1 {
         height: 120px;
         background-image: url("/images/headerBack2x.jpg");
     }
-}
-
-#content .col-sm-10 .article {
-    opacity: 0.0;
-   transition: opacity .5s ease-in-out;
-}
-
-article {
-	opacity: 0.0;
 }
 
 img {

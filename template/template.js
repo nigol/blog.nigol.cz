@@ -1,15 +1,15 @@
 var article = document.body.getElementsByTagName("article")[0].innerHTML;
 $.get("/template/template.head", function (head) {
     $("head").append(head);
-    $("#content>.col-sm-10>.article").css("opacity", 1.0);
-    window.setTimeout(function() {
-        $.get("/template/template.body", function (body) {
+    $.get("/template/template.body", function (body) {
+        $("body").css({opacity: 0});    
+        window.setTimeout(function() {
             $("body").html(body);
             $("#content>.col-sm-10>.article").html(article);
-            prepareCategories();
-        });
-    }, 500);
-    
+            prepareCategories();        
+            $("body").css({opacity: 1});    
+        }, 500);
+    });
 });
 
 function prepareCategories() {
