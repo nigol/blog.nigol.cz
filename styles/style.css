@@ -25,11 +25,12 @@ h1 {
 }
 
 #content .col-sm-10 .article {
-   -webkit-transition: opacity .5s ease-in-out;
-   -moz-transition: opacity .5s ease-in-out;
-   -ms-transition: opacity .5s ease-in-out;
-   -o-transition: opacity .5s ease-in-out;
+    opacity: 0.0;
    transition: opacity .5s ease-in-out;
+}
+
+article {
+	opacity: 0.0;
 }
 
 img {
